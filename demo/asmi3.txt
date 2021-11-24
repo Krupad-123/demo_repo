@@ -1,0 +1,115 @@
+1. Find the highest, lowest, sum, and average salary of all employees. 
+Label the columns
+as Maximum, Minimum, Sum, and Average, respectively. Round your 
+results to the nearest whole number.
+ans:  select max(salary) highest,min(salary) lowest,sum(salary) sum,trunc(avg(salary)) average
+from hr.employees;
+
+
+
+2.Display the minimum, maximum, sum, and average salary for each job 
+type. 
+ans:  select max(salary) highest,min(salary) lowest,sum(salary) sum,trunc(avg(salary)) average,job_id
+from hr.employees
+group by job_id;
+
+
+3.Write a query to display the number of people with the same job.
+ Generalize the query so that the user in the HR department is 
+prompted for a job title.
+
+ans:SELECT job_id, COUNT(*) FROM   employees  GROUP BY job_id; 
+
+4.Determine the number of managers without listing them. Label the column 
+as Number of Managers. Hint: Use the MANAGER_ID column to determine the 
+number of managers.
+
+ans: select count(manager_id) "number of managers"
+from hr.employees;
+
+5. Find the difference between the highest and lowest salaries. Label the 
+column DIFFERENCE.
+
+ans: select max(salary) higerst, min(salary) lowest, max(salary)-min(salary) Difference
+from hr.employees;
+
+
+6.Create a report to display the manager number and the salary of the 
+lowest-paid employee for that manager. Exclude anyone whose manager is 
+not known. Exclude any groups where the minimum salary is $6,000 or less. 
+Sort the output in descending order of salary.
+
+ans: select manager_id,min(salary)
+from hr.employees 
+where manager_id is not null 
+group by manager_id
+having min(salary)>6000
+order by min(salary) desc; 
+
+7.Create a query to display the total number of employees and, of that 
+total, the number of employees hired in 1995, 1996, 1997, and 1998. 
+Create appropriate column headings.
+ans: SELECT  COUNT(*) total,         
+SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1995,1,0))"1995",         
+SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1996,1,0))"1996",         
+SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1997,1,0))"1997",         
+SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1998,1,0))"1998" 
+FROM hr.employees; 
+
+8.Create a matrix query to display the job, the salary for that job based 
+on department number, and the total salary for that job, for departments 
+20, 50, 80, and 90, giving each column an appropriate heading.
+ans:SELECT   job_id "Job",          
+SUM(DECODE(department_id , 20, salary)) "Dept 20",          
+SUM(DECODE(department_id , 50, salary)) "Dept 50",          
+SUM(DECODE(department_id , 80, salary)) "Dept 80",          
+SUM(DECODE(department_id , 90, salary)) "Dept 90",           
+SUM(salary) "Total" 
+FROM  hr.employees 
+GROUP BY job_id; 
+
+1.Write a query for the HR department to produce the addresses of all the 
+departments. Use the LOCATIONS and COUNTRIES tables. Show the location 
+ID, street address, city, state or province, and country in the output. 
+Use a NATURAL JOIN to produce the results.
+ans:SELECT location_id, street_address, city, state_province, country_name 
+FROM   hr.locations l JOIN  hr.countries c
+on l.loaction_id=c.location_id;
+
+2.The HR department needs a report of all employees. Write a query to 
+display the last name, department number, and department name for all the 
+employees.
+ans:SELECT last_name, department_id, department_name 
+FROM  hr.employees  JOIN   departments  
+USING (department_id);
+
+3.The HR department needs a report of employees in Toronto. Display the 
+last name, job, department number, and the department name for all 
+employees who work in Toronto.
+ans:SELECT e.last_name, e.job_id, e.department_id, d.department_name 
+FROM hr.employees e JOIN hr.departments d  
+ON (e.department_id = d.department_id) 
+JOIN hr.locations l 
+ON (d.location_id = l.location_id) 
+WHERE LOWER(l.city) = 'toronto';
+
+4. Display all employees including King, who has no manager. Order the 
+results by the employee number.
+ans:select e1.manager_id,e2.employee_id
+from hr.employees e1 join hr.employees e2
+on e1.employee_id=e2.manager_id
+order by manager_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

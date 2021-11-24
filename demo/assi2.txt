@@ -1,0 +1,54 @@
+1. SELECT  sysdate "Date" FROM    dual; 
+
+2. SELECT  employee_id, last_name, salary,         
+ROUND(salary * 1.155, 0) "New Salary" 
+FROM   hr.employees; 
+
+3. SELECT  employee_id, last_name, salary,         
+ROUND(salary * 1.155, 0) "New Salary",         
+ROUND(salary * 1.155, 0) - salary "Increase"  
+FROM    employees;
+
+4. SELECT  INITCAP(last_name) "Name",         
+LENGTH(last_name) "Length" 
+FROM employees 
+WHERE   last_name LIKE 'J%' OR      
+last_name LIKE 'M%' OR      
+last_name LIKE 'A%' 
+ORDER BY last_name ; 
+
+5. SELECT  INITCAP(last_name) "Name",         
+LENGTH(last_name) "Length" 
+FROM    employees 
+WHERE   last_name LIKE '&start_letter%'  
+ORDER BY last_name;
+
+6. SELECT last_name, 
+ROUND(MONTHS_BETWEEN(SYSDATE, hire_date)) MONTHS_WORKED 
+FROM   employees  
+ORDER BY months_worked;
+
+7. SELECT last_name,        
+LPAD(salary, 15, '$') SALARY 
+FROM   employees;
+
+8. SELECT  last_name || ' earns ' 
+|| TO_CHAR(salary, 'fm$99,999.00') 
+|| ' monthly but wants '
+|| TO_CHAR(salary * 3, 'fm$99,999.00')
+|| '.' "Dream Salaries" 
+FROM  employees;
+
+9. SELECT last_name, hire_date,        
+TO_CHAR(NEXT_DAY(ADD_MONTHS(hire_date, 6),'MONDAY'),        
+'fmDay, "the" Ddspth "of" Month, YYYY') REVIEW 
+FROM    employees; 
+
+10. SELECT last_name, hire_date,        
+TO_CHAR(hire_date, 'DAY') DAY 
+FROM     employees 
+ORDER BY TO_CHAR(hire_date - 1, 'd');
+
+11. SELECT job_id, 
+decode (job_id, 'ST_CLERK',  'E','SA_REP','D','IT_PROG','C','ST_MAN','B','AD_PRES',   'A','0')GRADE 
+FROM employees;
